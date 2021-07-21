@@ -759,12 +759,12 @@ _FX const WCHAR *Process_MatchPath(
 
     if (closed_list) {
 
-        // 对于使用“!”的列表项，放开限制
+        // 对于使用“$”前缀的列表项，放开限制
         BOOLEAN is_allowed = FALSE;
         pat = List_Head(closed_list);
         while (pat) {
             patsrc = Pattern_Source(pat);
-            if (wcslen(patsrc) > 0 && patsrc[0] == L'!') {
+            if (wcslen(patsrc) > 0 && patsrc[0] == L'$') {
                 ULONG temp_patsrc_len = (wcslen(patsrc) - 1);
                 WCHAR *temp_patsrc = Mem_Alloc(pool, temp_patsrc_len);
                 if (! temp_patsrc) {
