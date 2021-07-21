@@ -28,6 +28,7 @@
 #include "api.h"
 #include "obj.h"
 #include "common/pattern.h"
+#include <stdio.h>
 
 
 //---------------------------------------------------------------------------
