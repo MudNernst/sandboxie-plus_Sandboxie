@@ -761,39 +761,40 @@ _FX const WCHAR *Process_MatchPath(
 
         // 对于使用“$”前缀的列表项，放开限制
         BOOLEAN is_allowed = FALSE;
-//        pat = List_Head(closed_list);
-//        while (pat) {
-//            patsrc = Pattern_Source(pat);
-//            if (wcslen(patsrc) > 0 && patsrc[0] == L'$') {
-//                ULONG temp_patsrc_len = (wcslen(patsrc) - 1);
-//                WCHAR *temp_patsrc = Mem_Alloc(pool, temp_patsrc_len);
-//                if (! temp_patsrc) {
-//                    return NULL;
-//                }
-//                wmemcpy(temp_patsrc, (patsrc + 1), temp_patsrc_len);
-//                PATTERN *temp_pat = Pattern_Create(pool, temp_patsrc, TRUE);
-//                if (Pattern_Match(temp_pat, path_lwr, path_len)) {
-//                    is_allowed = TRUE;
-//                    Mem_Free(temp_patsrc, temp_patsrc_len);
-//                    Pattern_Free(temp_pat);
-//                    break;
-//                }
-//                if (path_lwr[path_len - 1] != L'\\') {
-//                    path_lwr[path_len] = L'\\';
-//                    if (Pattern_Match(temp_pat, path_lwr, path_len + 1)) {
-//                        path_lwr[path_len] = L'\0';
-//                        is_allowed = TRUE;
-//                        Mem_Free(temp_patsrc, temp_patsrc_len);
-//                        Pattern_Free(temp_pat);
-//                        break;
-//                    }
-//                    path_lwr[path_len] = L'\0';
-//                }
-//                Mem_Free(temp_patsrc, temp_patsrc_len);
-//                Pattern_Free(temp_pat);
-//            }
-//            pat = List_Next(pat);
-//        }
+        pat = List_Head(closed_list);
+        while (pat) {
+            patsrc = Pattern_Source(pat);
+            printf(patsrc);
+            if (wcslen(patsrc) > 0 && patsrc[0] == L'$') {
+                ULONG temp_patsrc_len = (wcslen(patsrc) - 1);
+                WCHAR *temp_patsrc = Mem_Alloc(pool, temp_patsrc_len);
+                if (! temp_patsrc) {
+                    return NULL;
+                }
+                wmemcpy(temp_patsrc, (patsrc + 1), temp_patsrc_len);
+                PATTERN *temp_pat = Pattern_Create(pool, temp_patsrc, TRUE);
+                if (Pattern_Match(temp_pat, path_lwr, path_len)) {
+                    is_allowed = TRUE;
+                    Mem_Free(temp_patsrc, temp_patsrc_len);
+                    Pattern_Free(temp_pat);
+                    break;
+                }
+                if (path_lwr[path_len - 1] != L'\\') {
+                    path_lwr[path_len] = L'\\';
+                    if (Pattern_Match(temp_pat, path_lwr, path_len + 1)) {
+                        path_lwr[path_len] = L'\0';
+                        is_allowed = TRUE;
+                        Mem_Free(temp_patsrc, temp_patsrc_len);
+                        Pattern_Free(temp_pat);
+                        break;
+                    }
+                    path_lwr[path_len] = L'\0';
+                }
+                Mem_Free(temp_patsrc, temp_patsrc_len);
+                Pattern_Free(temp_pat);
+            }
+            pat = List_Next(pat);
+        }
         if (is_allowed) {
             *is_closed = FALSE;
         } else {
