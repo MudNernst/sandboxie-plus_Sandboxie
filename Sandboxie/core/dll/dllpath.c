@@ -321,27 +321,67 @@ _FX ULONG SbieDll_MatchPath2(WCHAR path_code, const WCHAR *path, BOOLEAN bCheckO
 
     if (closed_list && path_len) {
 
+        // 对于使用“$”前缀的列表项，放开限制
+        BOOLEAN is_allowed = FALSE;
+        WCHAR *patsrc = NULL;
         pat = List_Head(closed_list);
         while (pat) {
-
-            if (Pattern_Match(pat, path_lwr, path_len)) {
-                mp_flags |= PATH_CLOSED_FLAG;
-                break;
-            }
-
-            if (path_lwr[path_len - 1] != L'\\') {
-                path_lwr[path_len] = L'\\';
-                if (Pattern_Match(pat, path_lwr, path_len + 1)) {
-
+            patsrc = Pattern_Source(pat);
+            // Log_Msg(MSG_1203, patsrc, NULL);
+            if (wcslen(patsrc) > 0 && patsrc[0] == L'$') {
+                ULONG temp_patsrc_len = (wcslen(patsrc) - 1);
+                WCHAR *temp_patsrc = Dll_AllocTemp(temp_patsrc_len * sizeof(WCHAR));
+                if (! temp_patsrc) {
+                    return 0;
+                }
+                wmemcpy(temp_patsrc, (patsrc + 1), temp_patsrc_len);
+                PATTERN *temp_pat = Pattern_Create(pool, temp_patsrc, TRUE);
+                if (Pattern_Match(temp_pat, path_lwr, path_len)) {
+                    is_allowed = TRUE;
+                    Dll_Free(temp_patsrc);
+                    Pattern_Free(temp_pat);
+                    break;
+                }
+                if (path_lwr[path_len - 1] != L'\\') {
+                    path_lwr[path_len] = L'\\';
+                    if (Pattern_Match(temp_pat, path_lwr, path_len + 1)) {
+                        path_lwr[path_len] = L'\0';
+                        is_allowed = TRUE;
+                        Dll_Free(temp_patsrc);
+                        Pattern_Free(temp_pat);
+                        break;
+                    }
                     path_lwr[path_len] = L'\0';
+                }
+                Dll_Free(temp_patsrc);
+                Pattern_Free(temp_pat);
+            }
+            pat = List_Next(pat);
+        }
+        if (! is_allowed) {
+            pat = List_Head(closed_list);
+            while (pat) {
+
+                if (Pattern_Match(pat, path_lwr, path_len)) {
                     mp_flags |= PATH_CLOSED_FLAG;
                     break;
                 }
-                path_lwr[path_len] = L'\0';
-            }
 
-            pat = List_Next(pat);
+                if (path_lwr[path_len - 1] != L'\\') {
+                    path_lwr[path_len] = L'\\';
+                    if (Pattern_Match(pat, path_lwr, path_len + 1)) {
+
+                        path_lwr[path_len] = L'\0';
+                        mp_flags |= PATH_CLOSED_FLAG;
+                        break;
+                    }
+                    path_lwr[path_len] = L'\0';
+                }
+
+                pat = List_Next(pat);
+            }
         }
+
     }
 
     //
