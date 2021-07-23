@@ -764,6 +764,7 @@ _FX const WCHAR *Process_MatchPath(
         pat = List_Head(closed_list);
         while (pat) {
             patsrc = Pattern_Source(pat);
+            // TEST
             // Log_Msg(MSG_1203, patsrc, NULL);
             if (wcslen(patsrc) > 0 && patsrc[0] == L'$') {
                 ULONG temp_patsrc_len = (wcslen(patsrc) - 1);
