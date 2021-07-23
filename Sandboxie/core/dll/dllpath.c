@@ -323,7 +323,7 @@ _FX ULONG SbieDll_MatchPath2(WCHAR path_code, const WCHAR *path, BOOLEAN bCheckO
 
         // 对于使用“$”前缀的列表项，放开限制
         BOOLEAN is_allowed = FALSE;
-        WCHAR *patsrc = NULL;
+        const WCHAR *patsrc = NULL;
         POOL *pool = Pool_Create();
         if (! pool) {
             return 0;
