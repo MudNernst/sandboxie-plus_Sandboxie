@@ -324,6 +324,10 @@ _FX ULONG SbieDll_MatchPath2(WCHAR path_code, const WCHAR *path, BOOLEAN bCheckO
         // 对于使用“$”前缀的列表项，放开限制
         BOOLEAN is_allowed = FALSE;
         WCHAR *patsrc = NULL;
+        POOL *pool = Pool_Create();
+        if (! pool) {
+            return 0;
+        }
         pat = List_Head(closed_list);
         while (pat) {
             patsrc = Pattern_Source(pat);
@@ -358,6 +362,7 @@ _FX ULONG SbieDll_MatchPath2(WCHAR path_code, const WCHAR *path, BOOLEAN bCheckO
             }
             pat = List_Next(pat);
         }
+        Pool_Delete(pool);
         if (! is_allowed) {
             pat = List_Head(closed_list);
             while (pat) {
