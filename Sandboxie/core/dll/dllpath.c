@@ -335,7 +335,8 @@ _FX ULONG SbieDll_MatchPath2(WCHAR path_code, const WCHAR *path, BOOLEAN bCheckO
             SbieApi_Log(2301, L"SbieDll_MatchPath2 - patsrc:");
             SbieApi_Log(2301, patsrc);
             SbieApi_Log(2301, L"SbieDll_MatchPath2 - patsrc[0]:");
-            SbieApi_Log(2301, patsrc[0]);
+            WCHAR twchar[2] = {patsrc[0], L'\0'};
+            SbieApi_Log(2301, twchar);
             if (wcslen(patsrc) > 0 && patsrc[0] == L'$') {
                 ULONG temp_patsrc_len = (wcslen(patsrc) - 1);
                 WCHAR *temp_patsrc = Dll_AllocTemp(temp_patsrc_len * sizeof(WCHAR));
@@ -374,7 +375,7 @@ _FX ULONG SbieDll_MatchPath2(WCHAR path_code, const WCHAR *path, BOOLEAN bCheckO
             pat = List_Next(pat);
         }
         Pool_Delete(pool);
-        SbieApi_Log(2301, L"SbieDll_MatchPath2 - is_allowed:");
+        SbieApi_Log(2301, L"SbieDll_MatchPath2 - is_allowed = FALSE");
         if (! is_allowed) {
             SbieApi_Log(2301, L"FALSE");
             pat = List_Head(closed_list);
