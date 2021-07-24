@@ -352,6 +352,8 @@ _FX ULONG SbieDll_MatchPath2(WCHAR path_code, const WCHAR *path, BOOLEAN bCheckO
                 PATTERN *temp_pat = Pattern_Create(pool, temp_patsrc, TRUE);
                 SbieApi_Log(2301, L"SbieDll_MatchPath2 - Pattern_Source(temp_pat):");
                 SbieApi_Log(2301, Pattern_Source(temp_pat));
+                SbieApi_Log(2301, L"SbieDll_MatchPath2 - path_lwr:");
+                SbieApi_Log(2301, path_lwr);
                 if (Pattern_Match(temp_pat, path_lwr, path_len)) {
                     is_allowed = TRUE;
                     Dll_Free(temp_patsrc);

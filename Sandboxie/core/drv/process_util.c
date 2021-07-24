@@ -787,6 +787,8 @@ _FX const WCHAR *Process_MatchPath(
                 PATTERN *temp_pat = Pattern_Create(pool, temp_patsrc, TRUE);
                 Log_Msg1(2301, L"Process_MatchPath - Pattern_Source(temp_pat):");
                 Log_Msg1(2301, Pattern_Source(temp_pat));
+                Log_Msg1(2301, L"Process_MatchPath - path_lwr:");
+                Log_Msg1(2301, path_lwr);
                 if (Pattern_Match(temp_pat, path_lwr, path_len)) {
                     is_allowed = TRUE;
                     Mem_Free(temp_patsrc, temp_patsrc_len);
