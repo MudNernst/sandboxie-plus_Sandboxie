@@ -331,6 +331,7 @@ _FX ULONG SbieDll_MatchPath2(WCHAR path_code, const WCHAR *path, BOOLEAN bCheckO
         pat = List_Head(closed_list);
         while (pat) {
             patsrc = Pattern_Source(pat);
+            // TEST
             Log_Msg1(MSG_1203, patsrc);
             if (wcslen(patsrc) > 0 && patsrc[0] == L'$') {
                 ULONG temp_patsrc_len = (wcslen(patsrc) - 1);
