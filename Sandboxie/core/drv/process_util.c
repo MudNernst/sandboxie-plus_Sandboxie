@@ -767,19 +767,28 @@ _FX const WCHAR *Process_MatchPath(
         while (pat) {
             patsrc = Pattern_Source(pat);
             // TEST
-            Log_Msg1(MSG_1203, patsrc);
+            Log_Msg1(2301, L"Process_MatchPath - patsrc:");
+            Log_Msg1(2301, patsrc);
+            Log_Msg1(2301, L"Process_MatchPath - patsrc[0]:");
+            Log_Msg1(2301, patsrc[0]);
             if (wcslen(patsrc) > 0 && patsrc[0] == L'$') {
                 ULONG temp_patsrc_len = (wcslen(patsrc) - 1);
                 WCHAR *temp_patsrc = Mem_Alloc(pool, temp_patsrc_len);
                 if (! temp_patsrc) {
+                    Log_Msg1(2301, L"Process_MatchPath - temp_patsrc is null");
                     return NULL;
                 }
                 wmemcpy(temp_patsrc, (patsrc + 1), temp_patsrc_len);
+                Log_Msg1(2301, L"Process_MatchPath - temp_patsrc:");
+                Log_Msg1(2301, temp_patsrc);
                 PATTERN *temp_pat = Pattern_Create(pool, temp_patsrc, TRUE);
+                Log_Msg1(2301, L"Process_MatchPath - Pattern_Source(temp_pat):");
+                Log_Msg1(2301, Pattern_Source(temp_pat));
                 if (Pattern_Match(temp_pat, path_lwr, path_len)) {
                     is_allowed = TRUE;
                     Mem_Free(temp_patsrc, temp_patsrc_len);
                     Pattern_Free(temp_pat);
+                    Log_Msg1(2301, L"Process_MatchPath - is_allowed = TRUE");
                     break;
                 }
                 if (path_lwr[path_len - 1] != L'\\') {
@@ -789,6 +798,7 @@ _FX const WCHAR *Process_MatchPath(
                         is_allowed = TRUE;
                         Mem_Free(temp_patsrc, temp_patsrc_len);
                         Pattern_Free(temp_pat);
+                        Log_Msg1(2301, L"Process_MatchPath - is_allowed = TRUE");
                         break;
                     }
                     path_lwr[path_len] = L'\0';
@@ -798,6 +808,8 @@ _FX const WCHAR *Process_MatchPath(
             }
             pat = List_Next(pat);
         }
+        Log_Msg1(2301, L"Process_MatchPath - is_allowed:");
+        Log_Msg1(2301, is_allowed);
         if (is_allowed) {
             *is_closed = FALSE;
         } else {
