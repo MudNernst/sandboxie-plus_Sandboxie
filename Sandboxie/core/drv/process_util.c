@@ -809,10 +809,11 @@ _FX const WCHAR *Process_MatchPath(
             pat = List_Next(pat);
         }
         Log_Msg1(2301, L"Process_MatchPath - is_allowed:");
-        Log_Msg1(2301, is_allowed);
         if (is_allowed) {
             *is_closed = FALSE;
+            Log_Msg1(2301, L"FALSE");
         } else {
+            Log_Msg1(2301, L"TRUE");
             pat = List_Head(closed_list);
             while (pat) {
 

@@ -375,8 +375,8 @@ _FX ULONG SbieDll_MatchPath2(WCHAR path_code, const WCHAR *path, BOOLEAN bCheckO
         }
         Pool_Delete(pool);
         SbieApi_Log(2301, L"SbieDll_MatchPath2 - is_allowed:");
-        SbieApi_Log(2301, is_allowed);
         if (! is_allowed) {
+            SbieApi_Log(2301, L"FALSE");
             pat = List_Head(closed_list);
             while (pat) {
 
