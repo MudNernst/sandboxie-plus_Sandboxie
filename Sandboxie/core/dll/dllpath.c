@@ -338,12 +338,14 @@ _FX ULONG SbieDll_MatchPath2(WCHAR path_code, const WCHAR *path, BOOLEAN bCheckO
             WCHAR twchar[2] = {patsrc[0], L'\0'};
             SbieApi_Log(2301, twchar);
             if (wcslen(patsrc) > 0 && patsrc[0] == L'$') {
-                ULONG temp_patsrc_len = (wcslen(patsrc) - 1);
+                ULONG temp_patsrc_len = wcslen(patsrc);
                 WCHAR *temp_patsrc = Dll_AllocTemp(temp_patsrc_len * sizeof(WCHAR));
                 if (! temp_patsrc) {
                     SbieApi_Log(2301, L"SbieDll_MatchPath2 - temp_patsrc is null");
                     return 0;
                 }
+                SbieApi_Log(2301, L"SbieDll_MatchPath2 - (patsrc + 1):");
+                SbieApi_Log(2301, (patsrc + 1));
                 wmemcpy(temp_patsrc, (patsrc + 1), temp_patsrc_len);
                 SbieApi_Log(2301, L"SbieDll_MatchPath2 - temp_patsrc:");
                 SbieApi_Log(2301, temp_patsrc);

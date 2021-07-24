@@ -773,12 +773,14 @@ _FX const WCHAR *Process_MatchPath(
             WCHAR twchar[2] = {patsrc[0], L'\0'};
             Log_Msg1(2301, twchar);
             if (wcslen(patsrc) > 0 && patsrc[0] == L'$') {
-                ULONG temp_patsrc_len = (wcslen(patsrc) - 1);
+                ULONG temp_patsrc_len = wcslen(patsrc);
                 WCHAR *temp_patsrc = Mem_Alloc(pool, temp_patsrc_len);
                 if (! temp_patsrc) {
                     Log_Msg1(2301, L"Process_MatchPath - temp_patsrc is null");
                     return NULL;
                 }
+                Log_Msg1(2301, L"Process_MatchPath - (patsrc + 1):");
+                Log_Msg1(2301, (patsrc + 1));
                 wmemcpy(temp_patsrc, (patsrc + 1), temp_patsrc_len);
                 Log_Msg1(2301, L"Process_MatchPath - temp_patsrc:");
                 Log_Msg1(2301, temp_patsrc);
