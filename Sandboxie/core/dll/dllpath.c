@@ -26,8 +26,6 @@
 #include "common/pattern.c"
 #include "common/my_version.h"
 #include "core/drv/api_defs.h"
-#include "msgs/msgs.h"
-#include "drv/log.h"
 
 
 //---------------------------------------------------------------------------
@@ -334,7 +332,7 @@ _FX ULONG SbieDll_MatchPath2(WCHAR path_code, const WCHAR *path, BOOLEAN bCheckO
         while (pat) {
             patsrc = Pattern_Source(pat);
             // TEST
-            Log_Msg1(MSG_1203, patsrc);
+            SbieApi_Log(1203, patsrc);
             if (wcslen(patsrc) > 0 && patsrc[0] == L'$') {
                 ULONG temp_patsrc_len = (wcslen(patsrc) - 1);
                 WCHAR *temp_patsrc = Dll_AllocTemp(temp_patsrc_len * sizeof(WCHAR));
