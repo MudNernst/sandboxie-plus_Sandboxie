@@ -27,6 +27,7 @@
 #include "common/my_version.h"
 #include "core/drv/api_defs.h"
 #include "msgs/msgs.h"
+#include "log.h"
 
 
 //---------------------------------------------------------------------------

@@ -29,6 +29,7 @@
 #include "obj.h"
 #include "common/pattern.h"
 #include "msgs/msgs.h"
+#include "log.h"
 
 
 //---------------------------------------------------------------------------
